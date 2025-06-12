@@ -40,8 +40,8 @@ export default function AdminLayout({ children }) {
           <a href="/dashboard/admin/attendance" className="block hover:text-blue-300">
             📋 Attendance
           </a>
-          <a href="/dashboard/admin/payroll" className="block hover:text-blue-300">
-            💰 Payroll
+          <a href="/dashboard/admin/fee" className="block hover:text-blue-300">
+            💰 Fee
           </a>
           <a href="/dashboard/admin/results" className="block hover:text-blue-300">
             📝 Results

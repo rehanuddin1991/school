@@ -28,6 +28,28 @@ model Student {
   className      ClassName     @default(SIX)
   phone String
   createdAt DateTime @default(now())
+  fees       Fee[]
+}
+model Fee {
+  id         Int      @id @default(autoincrement())
+  studentId  Int
+  type       FeeType     @default(TUITION)
+  amount     Float
+  status     String   // Paid, Unpaid, Partial
+  paidDate   DateTime?
+  method     String?  // Cash, bKash, Bank
+
+  student    Student  @relation(fields: [studentId], references: [id])
+
+  
+}
+
+enum FeeType {
+  TUITION
+  EXAM
+  ADMISSION
+  SPORTS
+  LAB
 }
 
 enum ClassName {
@@ -37,4 +59,13 @@ enum ClassName {
   NINE 
   TEN    
   
+}
+
+
+
+model Attendance {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  timestamp DateTime
 }
