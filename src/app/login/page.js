@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,8 +29,13 @@ try {
 }
 
 if (res.ok) {
-  document.cookie = `token=${data.token}; path=/`;
-  router.push(data.role === 'ADMIN' ? '/dashboard/admin' : '/dashboard/user');
+  const target = data.role === 'ADMIN' ? '/dashboard/admin' : '/dashboard/user'; 
+   
+    console.log("✅ Login Success. Redirecting to:", target);
+ window.location.href = target; 
+       
+  
+   
 } else {
   alert(data.message || "Login failed");
 }

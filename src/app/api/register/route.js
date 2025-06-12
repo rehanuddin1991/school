@@ -44,3 +44,40 @@ export async function POST(req) {
     );
   }
 }
+export async function GET() {
+  const users = await prisma.user.findMany({ orderBy: { id: 'desc' } });
+  return NextResponse.json({ users });
+}
+
+ 
+
+
+export async function PATCH(req) {
+  const { id, name, email, role } = await req.json();
+
+  if (!id || !name || !email || !role) {
+    return NextResponse.json({ message: "All fields (id, name, email, role) are required." }, { status: 400 });
+  }
+
+  try {
+    const updated = await prisma.user.update({
+      where: { id },
+      data: {
+        name,
+        email,
+        role,
+      },
+    });
+
+    return NextResponse.json({ updated });
+  } catch (err) {
+    console.error('Update error:', err);
+    return NextResponse.json({ message: "Failed to update user." }, { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  const { id } = await req.json();
+  await prisma.user.delete({ where: { id } });
+  return NextResponse.json({ message: 'Deleted' });
+}

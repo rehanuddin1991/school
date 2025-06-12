@@ -1,13 +1,25 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from './src/utils/auth';
+import { jwtVerify } from 'jose';
 
-export function middleware(req) {
+// JWT_SECRET Base64 format-এ encode করা উচিত (Edge এর জন্য)
+const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+
+async function verifyToken(token) {
+  try {
+    const { payload } = await jwtVerify(token, secret);
+    return payload;
+  } catch (err) {
+    console.error('JWT verification failed:', err.message);
+    return null;
+  }
+}
+
+export async function middleware(req) {
   const token = req.cookies.get('token')?.value;
   const url = req.nextUrl.clone();
 
-  const user = verifyToken(token);
-
-  if (!user) {
+  if (!token) {
+    // No token → redirect to login
     if (url.pathname.startsWith('/dashboard')) {
       url.pathname = '/login';
       return NextResponse.redirect(url);
@@ -15,6 +27,14 @@ export function middleware(req) {
     return NextResponse.next();
   }
 
+  const user = await verifyToken(token);
+
+  if (!user) {
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
+  }
+
+  // Role-based redirects
   if (url.pathname === '/dashboard/admin' && user.role !== 'ADMIN') {
     url.pathname = '/dashboard/user';
     return NextResponse.redirect(url);
