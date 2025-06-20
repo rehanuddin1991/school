@@ -43,7 +43,7 @@ export default function AdminLayout({ children }) {
           <a href="/dashboard/admin/fee" className="block hover:text-blue-300">
             💰 Fee
           </a>
-          <a href="/dashboard/admin/results" className="block hover:text-blue-300">
+          <a href="/dashboard/admin/result" className="block hover:text-blue-300">
             📝 Results
           </a>
           <a href="/dashboard/admin/settings" className="block hover:text-blue-300">

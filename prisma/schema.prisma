@@ -29,6 +29,7 @@ model Student {
   phone String
   createdAt DateTime @default(now())
   fees       Fee[]
+  results Result[]
 }
 model Fee {
   id         Int      @id @default(autoincrement())
@@ -43,7 +44,6 @@ model Fee {
 
   
 }
-
 enum FeeType {
   TUITION
   EXAM
@@ -51,6 +51,55 @@ enum FeeType {
   SPORTS
   LAB
 }
+
+
+model Result {
+  id        Int     @id @default(autoincrement())
+  student   Student  @relation(fields: [studentId], references: [id])
+  studentId Int
+  subject   SubjectName @default(BANGLA)
+  exam   ExamType   @default(FIRST)
+  marks     Int
+  createdAt DateTime @default(now())
+}
+
+enum ExamType {
+  FIRST
+  SECOND
+  ANNUAL
+  MIDTERM
+  TEST
+  OTHERS
+}
+
+
+enum SubjectName {
+  BANGLA
+  ENGLISH
+  MATH
+  ICT
+  RELIGION
+  SCIENCE
+  PHYSICS
+  CHEMISTRY
+  BIOLOGY
+  HIGHER_MATH
+  AGRICULTURE
+  ACCOUNTING
+  BUSINESS_STUDIES
+  FINANCE
+  ECONOMICS
+  HISTORY
+  CIVICS
+  GEOGRAPHY
+  LOGIC
+  SOCIOLOGY
+  SOCIAL_WORK
+  PSYCHOLOGY
+}
+
+
+
 
 enum ClassName {
   SIX

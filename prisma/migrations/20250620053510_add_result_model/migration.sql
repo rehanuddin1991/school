@@ -1,0 +1,14 @@
+-- CreateTable
+CREATE TABLE `Result` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `studentId` INTEGER NOT NULL,
+    `subject` VARCHAR(191) NOT NULL,
+    `exam` ENUM('FIRST', 'SECOND', 'ANNUAL', 'MIDTERM', 'TEST', 'OTHERS') NOT NULL DEFAULT 'FIRST',
+    `marks` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Result` ADD CONSTRAINT `Result_studentId_fkey` FOREIGN KEY (`studentId`) REFERENCES `Student`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
